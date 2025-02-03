@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Summary Result</title>
+    <style>
+        body { font-family: Arial; max-width: 800px; margin: 20px auto; padding: 20px; }
+        .summary { background: #f0f8ff; padding: 15px; border-radius: 8px; }
+        .tokens_used { color: #666; font-size: 0.9em; margin-top: 20px; }
+        .transcript { color: #666; font-size: 0.9em; margin-top: 20px; }
+        
+    </style>
+</head>
+<body>
+    <h1>Video Summary</h1>
+    <div class="summary">{{ summary.replace('\n', '<br>') | safe }}</div>
+    <p>Tokens used: {{ tokens_used }}</p>
+
+
+    <h2>Ask a Question</h2>
+    <form class="question-form" action="/ask" method="POST">
+        <input type="text" name="question" placeholder="Ask a question about the video..." style="width: 70%; padding: 8px;">
+        <button type="submit">Ask</button>
+    </form>
+
+    {% if answer %}
+        <div class="answer">
+            <strong>Answer:</strong> {{ answer | safe }}
+        </div>
+    {% endif %}
+
+    <h2>Raw Transcript (First 1000 chars)</h2>  
+    <div class="transcript">{{ transcript }}...</div> 
+
+
+    <form action="/ask" method="POST">
+        <input type="text" name="question" placeholder="Ask a question about the video..." style="width: 70%; padding: 8px;">
+        <button type="submit" style="padding: 8px 15px;">Ask</button>
+    </form>
+
+<!-- Display answers here -->
+    {% if answer %}
+        <div class="answer" style="margin-top: 20px; padding: 10px; background: #f8f8f8; border-radius: 5px;">
+            <strong>Answer:</strong> {{ answer | safe }}
+        </div>
+    {% endif %}
+    
+</body>
+</html>
