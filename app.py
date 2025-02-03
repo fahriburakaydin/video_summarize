@@ -33,7 +33,7 @@ def extract_video_id(url):
 def download_audio(video_id):
     """Downloads the audio of a YouTube video using yt-dlp."""
     try:
-        # Ensure "audio" folder exists
+        # Ensure "audio" folder exists if not create it
         os.makedirs("audio", exist_ok=True)
 
         # yt-dlp options
