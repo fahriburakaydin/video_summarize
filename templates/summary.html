@@ -7,42 +7,58 @@
         .summary { background: #f0f8ff; padding: 15px; border-radius: 8px; }
         .tokens_used { color: #666; font-size: 0.9em; margin-top: 20px; }
         .transcript { color: #666; font-size: 0.9em; margin-top: 20px; }
-        
+        .answer { margin-top: 20px; padding: 10px; background: #f8f8f8; border-radius: 5px; }
     </style>
 </head>
+
 <body>
+
+
+
+    {% if video_id %}
+    <img src="https://img.youtube.com/vi/{{ video_id }}/hqdefault.jpg" 
+         alt="Video Thumbnail" 
+         style="width:100%; max-width:500px; border-radius:10px;">
+    {% endif %}
+
+    <h2>{{ video_title }}</h2> <!-- Video title -->
+    <p><strong>Uploaded on:</strong> {{ upload_date }}</p> <!-- Upload date -->
+    <p><strong>Duration:</strong> {{ video_length // 60 }} min {{ video_length % 60 }} sec</p> <!-- Convert seconds to min/sec -->
+
     <h1>Video Summary</h1>
     <div class="summary">{{ summary.replace('\n', '<br>') | safe }}</div>
-    <p>Tokens used: {{ tokens_used }}</p>
+    <p class="tokens_used">Tokens used: {{ tokens_used }}</p>
 
+    <!-- Copy Summary Button -->
+    <button onclick="copySummary()" style="margin: 10px 0; padding: 8px 15px; background: #28a745; color: white; border: none; border-radius: 5px;">
+        Copy Summary
+    </button>
 
+    <!-- Ask a Question Form -->
     <h2>Ask a Question</h2>
     <form class="question-form" action="/ask" method="POST">
         <input type="text" name="question" placeholder="Ask a question about the video..." style="width: 70%; padding: 8px;">
         <button type="submit">Ask</button>
     </form>
 
+    <!-- Display Answers -->
     {% if answer %}
         <div class="answer">
             <strong>Answer:</strong> {{ answer | safe }}
         </div>
     {% endif %}
 
-    <h2>Raw Transcript (First 1000 chars)</h2>  
-    <div class="transcript">{{ transcript }}...</div> 
+    <!-- Raw Transcript -->
+<!--    <h2>Raw Transcript (First 1000 chars)</h2> -->
+<!--    <div class="transcript">{{ transcript }}...</div>  -->
 
-
-    <form action="/ask" method="POST">
-        <input type="text" name="question" placeholder="Ask a question about the video..." style="width: 70%; padding: 8px;">
-        <button type="submit" style="padding: 8px 15px;">Ask</button>
-    </form>
-
-<!-- Display answers here -->
-    {% if answer %}
-        <div class="answer" style="margin-top: 20px; padding: 10px; background: #f8f8f8; border-radius: 5px;">
-            <strong>Answer:</strong> {{ answer | safe }}
-        </div>
-    {% endif %}
-    
+    <script>
+        function copySummary() {
+            const summary = document.querySelector('.summary').innerText;
+            navigator.clipboard.writeText(summary)
+                .then(() => alert('Summary copied!'))
+                .catch(() => alert('Failed to copy.'));
+        }
+    </script>
 </body>
 </html>
