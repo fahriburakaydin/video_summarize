@@ -25,8 +25,13 @@
     <p><strong>Uploaded on:</strong> {{ upload_date }}</p> <!-- Upload date -->
     <p><strong>Duration:</strong> {{ video_length // 60 }} min {{ video_length % 60 }} sec</p> <!-- Convert seconds to min/sec -->
 
-    <h1>Video Summary</h1>
-    <div class="summary">{{ summary.replace('\n', '<br>') | safe }}</div>
+    <div class="summary">
+        {% if summary %}
+            {{ summary.replace('\n', '<br>') | safe }}
+        {% else %}
+            <p>No summary available.</p>
+        {% endif %}
+    </div>
     <p class="tokens_used">Tokens used: {{ tokens_used }}</p>
 
     <!-- Copy Summary Button -->
