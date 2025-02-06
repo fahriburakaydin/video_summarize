@@ -53,11 +53,14 @@ def get_video_details(url):
 
 def download_audio(video_id):
     """Downloads the audio of a YouTube video using yt-dlp."""
+    cookies = os.getenv("YOUTUBE_COOKIES")  # Ensure cookies are set properly
+
     try:
         # Ensure "audio" folder exists
         os.makedirs("audio", exist_ok=True)
 
         ydl_opts = {
+            'cookies': cookies,  # Pass the cookies directly
             'format': 'bestaudio/best',
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
