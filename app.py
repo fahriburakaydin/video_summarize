@@ -32,7 +32,9 @@ def extract_video_id(url):
     return video_id[0] if video_id else None
 
 def get_video_details(url):
+    cookies = os.getenv("YOUTUBE_COOKIES")  # Ensure cookies are set properly
     ydl_opts = {
+        'cookies': cookies,  # Pass the cookies directly
         'quiet': True,
         'no_warnings': True,
         'format': 'best'
